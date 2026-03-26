@@ -1,0 +1,40 @@
+const BASE_URL = "http://localhost:5000/api/tasks";
+
+const request = async (path = "", options = {}) => {
+  const response = await fetch(`${BASE_URL}${path}`, {
+    headers: {
+      "Content-Type": "application/json",
+      ...(options.headers || {}),
+    },
+    ...options,
+  });
+
+  if (!response.ok) {
+    throw new Error(`Request failed with status ${response.status}`);
+  }
+
+  if (response.status === 204) {
+    return null;
+  }
+
+  return response.json();
+};
+
+export const getTasks = async () => request("/");
+
+export const createTask = async (task) =>
+  request("/", {
+    method: "POST",
+    body: JSON.stringify(task),
+  });
+
+export const updateTask = async (id, task) =>
+  request(`/${id}`, {
+    method: "PUT",
+    body: JSON.stringify(task),
+  });
+
+export const deleteTask = async (id) =>
+  request(`/${id}`, {
+    method: "DELETE",
+  });
