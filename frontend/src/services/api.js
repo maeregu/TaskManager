@@ -1,4 +1,6 @@
-const BASE_URL = "http://localhost:5000/api/tasks";
+const BASE_URL =
+  import.meta.env.VITE_API_BASE_URL?.trim() ||
+  "http://localhost:5000/api/tasks";
 
 const request = async (path = "", options = {}) => {
   const response = await fetch(`${BASE_URL}${path}`, {
@@ -10,7 +12,18 @@ const request = async (path = "", options = {}) => {
   });
 
   if (!response.ok) {
-    throw new Error(`Request failed with status ${response.status}`);
+    let message = `Request failed with status ${response.status}`;
+
+    try {
+      const errorData = await response.json();
+      if (errorData?.message) {
+        message = errorData.message;
+      }
+    } catch {
+      // Ignore non-JSON error payloads and keep the generic message.
+    }
+
+    throw new Error(message);
   }
 
   if (response.status === 204) {

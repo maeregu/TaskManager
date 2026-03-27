@@ -14,8 +14,8 @@ function App() {
       try {
         const data = await getTasks();
         setTasks(data);
-      } catch {
-        setError("Unable to load tasks. Make sure the backend is running.");
+      } catch (error) {
+        setError(error.message || "Unable to load tasks. Make sure the backend is running.");
       } finally {
         setLoading(false);
       }
@@ -35,8 +35,8 @@ function App() {
       const newTask = await createTask({ title: trimmedTitle });
       setTasks((currentTasks) => [newTask, ...currentTasks]);
       setError("");
-    } catch {
-      setError("Unable to add the task right now.");
+    } catch (error) {
+      setError(error.message || "Unable to add the task right now.");
     }
   };
 
@@ -53,8 +53,8 @@ function App() {
         ),
       );
       setError("");
-    } catch {
-      setError("Unable to update the task.");
+    } catch (error) {
+      setError(error.message || "Unable to update the task.");
     }
   };
 
@@ -65,8 +65,8 @@ function App() {
         currentTasks.filter((task) => task._id !== id),
       );
       setError("");
-    } catch {
-      setError("Unable to delete the task.");
+    } catch (error) {
+      setError(error.message || "Unable to delete the task.");
     }
   };
 
