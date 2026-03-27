@@ -87,11 +87,19 @@ function App() {
           <p className="message">No tasks yet. Add your first one above.</p>
         ) : null}
         {!loading && tasks.length > 0 ? (
-          <TaskList
-            tasks={tasks}
-            toggleTask={handleToggleTask}
-            removeTask={handleRemoveTask}
-          />
+          <>
+            <div className="list-header">
+              <h2>Your tasks</h2>
+              <span className="task-count">
+                {tasks.length} {tasks.length === 1 ? "task" : "tasks"}
+              </span>
+            </div>
+            <TaskList
+              tasks={tasks}
+              toggleTask={handleToggleTask}
+              removeTask={handleRemoveTask}
+            />
+          </>
         ) : null}
       </section>
     </main>
