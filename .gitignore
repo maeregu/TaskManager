@@ -1,3 +1,9 @@
+backend/.env
+frontend/node_modules/
+backend/node_modules/
+*.log
+dist/
+dist-ssr        
 # Logs
 logs
 *.log
